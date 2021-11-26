@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov 16 19:47:50 2017
+Created on Fri Nov 26 09:17:17 2021
 
+@author: lantrins
+"""
+
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Nov 16 19:47:50 2017
 @author: lfoul
 """
 import pygame
@@ -28,7 +34,7 @@ class Configuration:
         if 'xAxisColor' not in self.parameters:
             self.parameters['xAxisColor'] = [1, 0, 0] 
         if 'yAxisColor' not in self.parameters:
-            self.parameters['yAxisColor'] = [0, 1, 0]                 
+            self.parameters['yAxisColor'] = [0, 0, 0]                 
         if 'zAxisColor' not in self.parameters:
             self.parameters['zAxisColor'] = [0, 0, 1] 
         if 'screenPosition' not in self.parameters:
@@ -67,11 +73,12 @@ class Configuration:
         gl.glEnable(gl.GL_DEPTH_TEST)   
         
     # Initializes the tranformation matrix    
-    def initializeTransformationMatrix(self):     
+    def initializeTransformationMatrix(self): 
+        gl.glRotatef(-90,1,0,0)
         gl.glMatrixMode(gl.GL_PROJECTION)
         gl.glLoadIdentity()
         glu.gluPerspective(70, (self.screen.get_width()/self.screen.get_height()), 0.1, 100.0)
-
+        
         gl.glMatrixMode(gl.GL_MODELVIEW)
         gl.glLoadIdentity()
         gl.glTranslatef(0.0,0.0, self.parameters['screenPosition'])       
@@ -146,14 +153,29 @@ class Configuration:
         elif self.event.dict['unicode'] == 'a' or self.event.key == pygame.K_a:
             self.parameters['axes'] = not self.parameters['axes']
             pygame.time.wait(300)
+        
+        # zooms
+        if self.event.key == pygame.K_PAGEUP:
+            gl.glScalef(1.1, 1.1, 1.1)
+        elif self.event.key == pygame.K_PAGEDOWN:
+            gl.glScalef(1/ 1.1, 1/ 1.1, 1/ 1.1)
     
     # Processes the MOUSEBUTTONDOWN event
     def processMouseButtonDownEvent(self):
-        pass
+        if self.event.button ==4:
+            gl.glScalef(1.1, 1.1, 1.1)
+        elif self.event.button == 5:
+            gl.glScalef(1/ 1.1, 1/ 1.1, 1/ 1.1)
+            
     
     # Processes the MOUSEMOTION event
     def processMouseMotionEvent(self):
-        pass
+        if pygame.mouse.get_pressed()[0]==1:
+            gl.glRotatef(self.event.rel[1],1,0,0)
+            gl.glRotatef(self.event.rel[0],0,0,1)
+        if pygame.mouse.get_pressed()[2]==1:
+            gl.glTranslatef(self.event.rel[0]/100,0,0)
+            gl.glTranslatef(0,0,-self.event.rel[1]/100)
          
     # Displays on screen and processes events    
     def display(self): 
