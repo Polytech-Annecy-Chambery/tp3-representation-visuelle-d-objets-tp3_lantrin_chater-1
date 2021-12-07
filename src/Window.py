@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov 16 19:47:50 2017
+Created on Fri Nov 26 09:32:14 2021
 
+@author: lantrins
+"""
+
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Nov 16 19:47:50 2017
 @author: lfoul
 """
 import OpenGL.GL as gl
@@ -76,5 +82,3 @@ class Window:
             
         # Restores the frame coordinates   
         gl.glPopMatrix() 
-
-        
