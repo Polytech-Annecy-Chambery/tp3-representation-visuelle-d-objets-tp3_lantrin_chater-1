@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov 16 19:47:50 2017
+Created on Fri Nov 26 09:30:33 2021
 
+@author: lantrins
+"""
+
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Nov 16 19:47:50 2017
 @author: lfoul
 """
 
@@ -46,14 +52,36 @@ class Opening:
 
     # Defines the vertices and faces        
     def generate(self):
-        self.vertices = [ 
-                # Définir ici les sommets
-                ]
+        self.vertices = [
+                [0, 0, 0 ], 
+                [0, 0, self.parameters['height']], 
+                [self.parameters['width'], 0, self.parameters['height']],
+                [self.parameters['width'], 0, 0],
+                [0, self.parameters['thickness'], 0 ], 
+                [0, self.parameters['thickness'], self.parameters['height']], 
+                [self.parameters['width'], self.parameters['thickness'], self.parameters['height']],
+                [self.parameters['width'], self.parameters['thickness'], 0]
+                ] 
+        
         self.faces = [
-                # définir ici les faces
+                [0,4,5,1],
+                [3,7,6,2],
+                [0,4,7,3],
+                [1,5,6,2]
                 ]   
+                
         
     # Draws the faces                
     def draw(self):        
         # A compléter en remplaçant pass par votre code
-        pass
+        gl.glPushMatrix()
+        gl.glTranslate(self.parameters['position'][0],self.parameters['position'][1],self.parameters['position'][2])
+        gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL) 
+        for i in self.faces:
+            gl.glBegin(gl.GL_QUADS)
+            gl.glColor3fv(self.parameters['color'])
+            for j in i:
+                gl.glVertex3fv(self.vertices[j])
+            gl.glEnd()
+        gl.glPopMatrix()
+    
