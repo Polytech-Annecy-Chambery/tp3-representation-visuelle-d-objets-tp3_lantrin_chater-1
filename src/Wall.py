@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov 16 19:47:50 2017
+Created on Fri Nov 26 09:31:32 2021
 
+@author: lantrins
+"""
+
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Nov 16 19:47:50 2017
 @author: lfoul
 """
 import OpenGL.GL as gl
@@ -64,10 +70,13 @@ class Wall:
     # Adds an object    
     def add(self, x):    
         # A compléter en remplaçant pass par votre code
-        pass        
-                    
-    # Draws the faces
+        pass
+      
     def draw(self):
         # A compléter en remplaçant pass par votre code
-        pass
+        gl.glPushMatrix()
+        gl.glRotate(self.parameters['orientation'],0,0,1)
+        for i in self.objects:
+            i.draw()
+        gl.glPopMatrix()
   
